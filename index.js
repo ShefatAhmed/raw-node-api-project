@@ -1,13 +1,11 @@
 const http = require("http");
 const { handleReqRes } = require("./helpers/handleReqRes");
+const enviroment = require("./helpers/enviroments");
 const app = {};
-app.configure = {
-  port: 5000,
-};
 app.createServer = () => {
   const server = http.createServer(app.handleReqRes);
-  server.listen(app.configure.port, () => {
-    console.log(`Server is listing on ${app.configure.port}`);
+  server.listen(enviroment.port, () => {
+    console.log(`Server is listening on ${enviroment.port}`);
   });
 };
 app.handleReqRes = handleReqRes;

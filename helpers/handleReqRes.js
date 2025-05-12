@@ -23,18 +23,18 @@ handler.handleReqRes = (req, res) => {
   const chossenHandler = routes[trimmedPath]
     ? routes[trimmedPath]
     : notFoundHandler;
-  chossenHandler(requestProperties, (statusCode, payload) => {
+  req.on("data", (buffer) => {
+    realData = decoder.write(buffer);
+  });
+  req.on("end", () => {
+    realData = decoder.end();
+    chossenHandler(requestProperties, (statusCode, payload) => {
     statusCode = typeof statusCode === "number" ? statusCode : 500;
     payload = typeof payload === "object" ? payload : {};
     const payloadString = JSON.stringify(payload);
     res.writeHead(statusCode);
     res.end(payloadString);
   });
-  req.on("data", (buffer) => {
-    realData = decoder.write(buffer);
-  });
-  req.on("end", () => {
-    realData = decoder.end();
     console.log(realData);
     res.end("Hello World");
   });
