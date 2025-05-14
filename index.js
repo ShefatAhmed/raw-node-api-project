@@ -1,37 +1,24 @@
-const http = require("http");
-const { handleReqRes } = require("./helpers/handleReqRes");
-const enviroment = require("./helpers/enviroments");
-const data = require("./lib/data");
-const app = {};
-// data.create(
-//   "test",
-//   "newFile",
-//   { name: "bangladesh", language: "bangla" },
-//   (err) => {
-//     console.log("Error", err);
-//   }
-// );
-// data.read("test", "newFile", (err, data) => {
-//   console.log(err, data);
-// });
-// data.update(
-//   "test",
-//   "newFile",
-//   { name: "bangladesh", language: "english" },
-//   (err) => {
-//     console.log("Error", err);
-//   }
-// );
+const http = require('http');
+const { handleReqRes } = require('./helpers/handleReqRes');
 
-data.delete("test", "newFile", (err) => {
-  console.log("Error", err);
-});
-app.createServer = () => {
-  const server = http.createServer(app.handleReqRes);
-  server.listen(enviroment.port, () => {
-    console.log(`Server is listening on ${enviroment.port}`);
-  });
+// app object - module scaffolding
+const app = {};
+
+// configuration
+app.config = {
+    port: 3000,
 };
+
+// create server
+app.createServer = () => {
+    const server = http.createServer(app.handleReqRes);
+    server.listen(app.config.port, () => {
+        console.log(`listening to port ${app.config.port}`);
+    });
+};
+
+// handle Request Response
 app.handleReqRes = handleReqRes;
 
+// start the server
 app.createServer();
